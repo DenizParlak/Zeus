@@ -16,7 +16,7 @@ Currently, it only includes the Logging mechanism (v1.0).
 
 # Requirements
 
-Script has been written in bash using AWS-CLI and it works in Linux/UNIX and OSX.
+Zeus has been written in bash using AWS-CLI and it works in Linux/UNIX and OSX.
 
 Make sure that the AWS-CLI tool is installed on the system and profile is configured (aws configure).
 
