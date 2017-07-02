@@ -1,7 +1,7 @@
 # Zeus
 AWS Auditing &amp; Hardening Tool v1.0
 
-Zeus is a powerful script for AWS EC2 / S3 best hardening practices. It checks security settings according to the profiles the user creates and changes them to recommended settings based on the CIS AWS Benchmark source at request of the user.
+Zeus is a powerful tool for AWS EC2 / S3 best hardening practices. It checks security settings according to the profiles the user creates and changes them to recommended settings based on the CIS AWS Benchmark source at request of the user.
 
 Currently, it only includes the Logging mechanism (v1.0).
 
@@ -16,7 +16,7 @@ Currently, it only includes the Logging mechanism (v1.0).
 
 # Requirements
 
-Zeus has been written in bash using AWS-CLI and it works in Linux/UNIX and OSX.
+Zeus has been written in bash script using AWS-CLI and it works in Linux/UNIX and OSX.
 
 Make sure that the AWS-CLI tool is installed on the system and profile is configured (aws configure).
 
