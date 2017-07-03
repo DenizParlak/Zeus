@@ -27,6 +27,6 @@ Zeus has been written in bash script using AWS-CLI and it works in Linux/UNIX an
 Make sure that the AWS-CLI tool is installed on the system and profile is configured (aws configure).
 
 
-![alt text](https://i.hizliresim.com/Prn6j5.jpg)
+![alt text](https://i.hizliresim.com/ERrgDZ.jpg)
 
 ![alt text](https://i.hizliresim.com/r2EPn1.jpg)
