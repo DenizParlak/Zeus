@@ -24,8 +24,13 @@ Zeus is a powerful tool for AWS EC2 / S3 best hardening practices. It checks sec
 
 Zeus has been written in bash script using AWS-CLI and it works in Linux/UNIX and OSX.
 
-Make sure that the AWS-CLI tool is installed on the system and profile is configured (aws configure).
+~~Make sure that the AWS-CLI tool is installed on the system and profile is configured (aws configure).~~
 
+### Update:
+
+pip & aws-cli checking functions are added based on operating system.
+
+# Screenshots
 
 ![alt text](https://i.hizliresim.com/ERrgDZ.jpg)
 
