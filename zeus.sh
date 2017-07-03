@@ -44,6 +44,65 @@ echo -e "Zeus is starting at.." `date`
 echo -e "____________________________________________"
 echo -en '\n'
 
+avoid_root(){
+
+cre_rep=$(aws iam generate-credential-report)
+aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,5,11,16 > credential_reports.txt
+echo -en "IAM credential report file created as 'credential_reports.txt'"
+echo ""
+
+}
+
+
+show acc1
+echo "Result:"
+echo ""
+avoid_root
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+mfa_iam(){
+
+aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,4,8 > mfa_reports.txt
+
+echo -en "MFA credential report file created as 'mfa_reports.txt'"
+echo ""
+
+}
+
+show acc2
+echo "Result:"
+echo ""
+mfa_iam
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+days_90(){
+
+rep_days=$(aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,4,5,9,10,11,14,15,16 | awk -F "," '{print $2}' | sed -n '2p')
+
+if [ "$rep_days" == "not_supported" ]
+then
+echo -e "${re}WARNING${xx}"
+echo -e "Password not supported!"
+else
+echo -e "${gr}OK${xx}"
+echo -e "Password enabled for each user!"
+fi
+
+}
+
+show acc3
+echo "Result:"
+echo ""
+days_90
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 
 trail_control(){
 
