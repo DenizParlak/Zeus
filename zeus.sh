@@ -12,6 +12,9 @@ show(){
 printf "${!1}\n"
 }
 
+acc1="Avoid the use of the root account."
+acc2="Ensure MFA is enabled for all IAM users that have a console password."
+acc3="Ensure credentials unused for 90 days or greater are disabled."
  
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
