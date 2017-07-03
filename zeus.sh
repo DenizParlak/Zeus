@@ -153,7 +153,7 @@ echo "Result:"
 echo ""
 trail_control
 echo ""
-printf "#######################################\n\n"
+echo -e "____________________________________________"
 
 
 #fix_trail(){
@@ -199,7 +199,7 @@ echo "Result:"
 echo ""
 trail_log_control
 echo ""
-printf "#######################################\n\n"
+echo -e "____________________________________________"
 
 
 s3_bucket_log(){
@@ -252,7 +252,7 @@ echo "Result:"
 echo ""
 s3_bucket_log
 echo ""
-printf "#######################################\n\n"
+echo -e "____________________________________________"
 
 
 cloudwatch(){
@@ -268,17 +268,14 @@ echo -e "${gr}OK${xx}"
 echo -e "CloudWatch is enable!"
 fi
 
-
-
 }
-
 
 show log4
 echo "Result:"
 echo ""
 cloudwatch
 echo ""
-printf "#######################################\n\n"
+echo -e "____________________________________________"
 
 
 s3_access_log(){
@@ -301,8 +298,7 @@ echo "Result:"
 echo ""
 s3_access_log
 echo ""
-printf "#######################################\n\n"
-
+echo -e "____________________________________________"
 
 cmk_kms(){
 
@@ -324,8 +320,7 @@ echo "Result:"
 echo ""
 cmk_kms
 echo ""
-printf "#######################################\n\n"
-
+echo -e "____________________________________________"
 
 cmk(){
 
@@ -367,4 +362,4 @@ echo "Result:"
 echo ""
 cmk
 echo ""
-printf "#######################################\n\n"
+echo -e "____________________________________________"
