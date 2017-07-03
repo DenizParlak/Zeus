@@ -3,8 +3,14 @@ AWS Auditing &amp; Hardening Tool
 
 Zeus is a powerful tool for AWS EC2 / S3 best hardening practices. It checks security settings according to the profiles the user creates and changes them to recommended settings based on the CIS AWS Benchmark source at request of the user.
 
-Currently, it only includes the Logging mechanism.
+~~Currently, it only includes the Logging mechanism.~~
 
+## Identity and Access Management
+- Avoid the use of the "root" account
+- Ensure multi-factor authentication (MFA) is enabled for all IAM users that have a console password
+- Ensure credentials unused for 90 days or greater are disabled 
+
+## Logging
 - Ensure CloudTrail is enabled in all regions 
 - Ensure CloudTrail log file validation is enabled 
 - Ensure the S3 bucket CloudTrail logs to is not publicly accessible
