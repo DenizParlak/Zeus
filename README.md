@@ -28,7 +28,7 @@ Zeus has been written in bash script using AWS-CLI and it works in Linux/UNIX an
 
 ### Update:
 
-pip & aws-cli checking functions are added based on operating system.
+pip & aws-cli checking functions are added that based on operating system.
 
 # Screenshots
 
