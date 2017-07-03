@@ -23,4 +23,4 @@ Make sure that the AWS-CLI tool is installed on the system and profile is config
 
 ![alt text](https://i.hizliresim.com/kWEVmr.jpg)
 
-![alt text](https://i.hizliresim.com/r2EPn1.jpg)
+![alt text](https://i.hizliresim.com/Prn6j5.jpg)
