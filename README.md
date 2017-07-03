@@ -32,6 +32,6 @@ pip & aws-cli checking functions are added that based on operating system.
 
 # Screenshots
 
-![alt text](https://i.hizliresim.com/ERrgDZ.jpg)
+![alt text](https://i.hizliresim.com/DdBYbm.jpg)
 
 ![alt text](https://i.hizliresim.com/r2EPn1.jpg)
