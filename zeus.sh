@@ -39,7 +39,7 @@ echo -en '\n'
 echo -e "${re}denizparlak@papilon.com.tr${xx}"
 echo -e "${re}twitter.com/_denizparlak${xx}"
 echo -en '\n'
-echo -e "Zeus is starting at.." date
+echo -e "Zeus is starting at.." `date`
 #echo -en '\n'
 echo -e "____________________________________________"
 echo -en '\n'
