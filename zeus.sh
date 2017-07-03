@@ -44,6 +44,58 @@ echo -e "Zeus is starting at.." `date`
 echo -e "____________________________________________"
 echo -en '\n'
 
+check_aws(){
+
+type "$1" &> /dev/null
+
+}
+
+check_pip(){
+
+type "$1" &> /dev/null 
+
+}
+
+check_os(){
+
+if [[ $OSTYPE == darwin* ]]
+then
+echo -e "${yw}INFO${xx}: Operating System: MacOS"
+if check_pip pip ; then
+echo -e "${yw}INFO{$xx}: pip is installed on the system."
+else
+curl -O https://bootstrap.pypa.io/get-pip.py &> /dev/null
+python3 get-pip.py --user &> /dev/null
+fi
+if check_aws aws ; then
+echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system."
+else
+pip3 install --user --upgrade awscli &> /dev/null
+fi
+echo ""
+elif [[ "$OSTYPE" == linux* ]]
+then
+echo -e "${yw}INFO${xx}: Operating System: Linux"
+if check_pip pip; then
+echo -e "${yw}INFO${xx}: pip is installed on the system."
+else
+pip install awscli --upgrade --user &> /dev/null
+fi
+if check_aws aws ; then
+echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system."
+echo -e "____________________________________________"
+echo -en '\n'
+else
+pip3 install --user --upgrade awscli &> /dev/null
+fi
+echo ""
+fi
+
+}
+
+check_os
+
+
 avoid_root(){
 
 cre_rep=$(aws iam generate-credential-report)
