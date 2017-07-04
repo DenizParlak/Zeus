@@ -30,6 +30,12 @@ Zeus has been written in bash script using AWS-CLI and it works in Linux/UNIX an
 
 pip & aws-cli checking functions are added that based on operating system.
 
+# Usage
+
+git clone https://github.com/DenizParlak/Zeus.git
+chmod +x zeus.sh
+./zeus.sh
+
 # Screenshots
 
 ![alt text](https://i.hizliresim.com/DdBYbm.jpg)
