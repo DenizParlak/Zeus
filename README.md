@@ -8,13 +8,15 @@ Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best ha
 ## Identity and Access Management
 - Avoid the use of the "root" account
 - Ensure multi-factor authentication (MFA) is enabled for all IAM users that have a console password
-- Ensure credentials unused for 90 days or greater are disabled 
+- Ensure credentials unused for 90 days or greater are disabled
+- Ensure access keys are rotated every 90 days or less
+- Ensure IAM password policy requires at least one uppercase letter
 
 ## Logging
-- Ensure CloudTrail is enabled in all regions 
-- Ensure CloudTrail log file validation is enabled 
+- Ensure CloudTrail is enabled in all regions
+- Ensure CloudTrail log file validation is enabled
 - Ensure the S3 bucket CloudTrail logs to is not publicly accessible
-- Ensure CloudTrail trails are integrated with CloudWatch Logs 
+- Ensure CloudTrail trails are integrated with CloudWatch Logs
 - Ensure AWS Config is enabled in all regions
 - Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket
 - Ensure CloudTrail logs are encrypted at rest using KMS CMKs
