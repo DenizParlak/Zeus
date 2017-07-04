@@ -32,8 +32,7 @@ pip & aws-cli checking functions are added that based on operating system.
 
 # Usage
 
-git clone https://github.com/DenizParlak/Zeus.git
-chmod +x zeus.sh
+git clone https://github.com/DenizParlak/Zeus.git && cd Zeus && chmod +x zeus.sh && ./zeus.sh
 
 # Screenshots
 
