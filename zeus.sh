@@ -15,7 +15,9 @@ printf "${!1}\n"
 acc1="Avoid the use of the root account."
 acc2="Ensure MFA is enabled for all IAM users that have a console password."
 acc3="Ensure credentials unused for 90 days or greater are disabled."
- 
+acc4="Ensure access keys are rotated every 90 days or less."
+acc5="Ensure IAM password policy requires at least one uppercase letter."
+
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
 log3="Ensure the S3 bucket CloudTrail logs to is not publicly accessible:"
@@ -158,6 +160,53 @@ days_90
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
+
+rotated_90(){
+
+aws iam get-credential-report --query 'Content' --output text | base64 -d > access_key.log
+
+echo -en "Access keys rotate log file created as access_key.log"
+echo ""
+
+}
+
+
+show acc4
+echo "Result:"
+echo ""
+rotated_90
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+uppercase_iam(){
+
+if aws iam get-account-password-policy | grep NoSuch
+then
+echo -en "${re}WARNING${xx}"
+echo -en "Uppercase letter force was not setted for IAM password policy!"
+read -p 'fix? y/n' fix_acc
+if [ "$fix_acc" == "y" ]
+then
+aws iam update-account-password-policy --require-uppercase-charecters
+fi
+else
+echo -en "${gr}OK${xx}"
+echo ""
+echo -en "Uppercase letter force active!"
+fi
+
+}
+
+show acc5
+echo "Result:"
+echo ""
+uppercase_iam
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
 
 trail_control(){
 
