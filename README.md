@@ -1,7 +1,7 @@
 # Zeus
 AWS Auditing &amp; Hardening Tool
 
-Zeus is a powerful tool for AWS EC2 / S3 best hardening practices. It checks security settings according to the profiles the user creates and changes them to recommended settings based on the CIS AWS Benchmark source at request of the user.
+Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best hardening practices. It checks security settings according to the profiles the user creates and changes them to recommended settings based on the CIS AWS Benchmark source at request of the user.
 
 ~~Currently, it only includes the Logging mechanism.~~
 
