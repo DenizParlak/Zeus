@@ -17,6 +17,7 @@ acc2="Ensure MFA is enabled for all IAM users that have a console password."
 acc3="Ensure credentials unused for 90 days or greater are disabled."
 acc4="Ensure access keys are rotated every 90 days or less."
 acc5="Ensure IAM password policy requires at least one uppercase letter."
+acc6="Ensure IAM password policy requires at least one lowercase letter."
 
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
@@ -203,6 +204,38 @@ show acc5
 echo "Result:"
 echo ""
 uppercase_iam
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+lowercase_iam(){
+
+low_c=$(aws iam get-account-password-policy | grep RequireLower | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+
+
+if aws iam get-account-password-policy | grep "NoSuch" || [ "$low_c" == "false" ]
+then
+echo -en "${re}WARNING${xx}"
+echo ""
+echo -en "Lowercase letter force was not setted for IAM password policy!"
+echo ""
+read -p 'fix? y/n' fix_acc
+if [ "$fix_acc" == "y" ]
+then
+aws iam update-account-password-policy --require-lowercase-characters
+fi
+else
+echo -en "${gr}OK${xx}"
+echo ""
+echo -en "Lowercase letter force active!"
+fi
+
+}
+
+show acc6
+echo "Result:"
+echo ""
+lowercase_iam
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
