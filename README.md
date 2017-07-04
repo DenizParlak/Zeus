@@ -11,6 +11,7 @@ Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best ha
 - Ensure credentials unused for 90 days or greater are disabled
 - Ensure access keys are rotated every 90 days or less
 - Ensure IAM password policy requires at least one uppercase letter
+- Ensure IAM password policy requires at least one lowercase letter
 
 ## Logging
 - Ensure CloudTrail is enabled in all regions
