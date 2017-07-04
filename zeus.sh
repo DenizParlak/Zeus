@@ -190,7 +190,7 @@ echo -en "Uppercase letter force was not setted for IAM password policy!"
 read -p 'fix? y/n' fix_acc
 if [ "$fix_acc" == "y" ]
 then
-aws iam update-account-password-policy --require-uppercase-charecters
+aws iam update-account-password-policy --require-uppercase-characters
 fi
 else
 echo -en "${gr}OK${xx}"
