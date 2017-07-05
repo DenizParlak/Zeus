@@ -18,6 +18,9 @@ acc3="Ensure credentials unused for 90 days or greater are disabled."
 acc4="Ensure access keys are rotated every 90 days or less."
 acc5="Ensure IAM password policy requires at least one uppercase letter."
 acc6="Ensure IAM password policy requires at least one lowercase letter."
+acc7="Ensure IAM password policy requires at least one symbol."
+acc8="Ensure IAM password policy requires at least one number."
+acc9="Ensure IAM password policy requires minimum length of 14 or greater."
 
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
@@ -171,7 +174,6 @@ echo ""
 
 }
 
-
 show acc4
 echo "Result:"
 echo ""
@@ -236,6 +238,99 @@ show acc6
 echo "Result:"
 echo ""
 lowercase_iam
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+symbols_req(){
+
+if aws iam get-account-password-policy | grep "NoSuch" || [ "$sym_c" == "false" ]
+then
+echo -en "${re}WARNING${xx}"
+echo ""
+echo -en "At least one symbol force was not setted for IAM password policy!"
+echo ""
+read -p 'fix? y/n' fix_acc3
+if [ "$fix_acc3" == "y" ]
+then
+aws iam update-account-password-policy --require-symbols
+fi
+else
+echo -en "${gr}OK${xx}"
+echo ""
+echo -en "At least one symbol force active!"
+fi
+
+}
+
+show acc7
+echo "Result:"
+echo ""
+symbols_req
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+require_num(){
+
+num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+
+if aws iam get-account-password-policy | grep "NoSuch" || [ "$num_c" == "false" ]
+then
+echo -en "${re}WARNING${xx}"
+echo ""
+echo -en "Number force was not setted for IAM password policy!"
+echo ""
+read -p 'fix? y/n' fix_acc4
+if [ "$fix_acc4" == "y" ]
+then
+aws iam update-account-password-policy --require-numbers
+fi
+else
+echo -en "${gr}OK${xx}"
+echo ""
+echo -en "Number force active!"
+fi
+
+}
+
+show acc8
+echo "Result:"
+echo ""
+require_num
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+min_len(){
+
+min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+
+if aws iam get-account-password-policy | grep "NoSuch" || [ "$min_n" == "6" ]
+then
+echo -en "${re}WARNING${xx}"
+echo ""
+echo -en "Required minimum length = 6!"
+echo ""
+read -p 'fix? y/n' fix_acc5
+if [ "$fix_acc5" == "y" ]
+then
+aws iam update-account-password-policy --minimum-password-length
+fi
+else
+echo -en "${gr}OK${xx}"
+echo ""
+echo -en "Required minimum length = 14"
+fi
+
+}
+
+show acc9
+echo "Result:"
+echo ""
+require_num
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
