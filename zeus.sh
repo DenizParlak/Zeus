@@ -33,6 +33,8 @@ log6="Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket:"
 log7="Ensure CloudTrail logs are encrypted at rest using KMS CMKs:"
 log8="Ensure rotation for customer created CMKs is enabled:"
 
+net1="Ensure no security groups allow ingress from 0.0.0.0/0 to port 22"
+
 
 #echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo "   ______     ______     __  __     ______"    
@@ -640,3 +642,36 @@ echo ""
 cmk
 echo ""
 echo -e "____________________________________________"
+
+port_22(){
+
+
+bl=$(aws ec2 describe-security-groups --filters Name=ip-permission.to-port,Values=22 | grep GroupName | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
+
+bl_num=$(aws ec2 describe-security-groups --filters Name=ip-permission.to-port,Values=22 | grep GroupName | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//' | cat -n | awk -F " " '{print $1}' | tail -n 1 )
+
+bl_file=$(aws ec2 describe-security-groups --filters Name=ip-permission.to-port,Values=22 | grep GroupName | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//' > allows.log)
+
+if [[ $bl = "" ]]
+then
+echo -en "${gr}OK${xx}"
+echo ""
+echo -en "No security group has allow to port 22."
+else
+echo -en "${re}WARNING${xx}"
+echo ""
+echo -en "$bl_num security group has allow to port 22!"
+echo ""
+echo -en "Security groups listed on allows.log file!"
+fi
+
+
+}
+
+show net1
+echo "Result:"
+echo ""
+port_22
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
