@@ -28,6 +28,9 @@ Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best ha
 - Ensure CloudTrail logs are encrypted at rest using KMS CMKs
 - Ensure rotation for customer created CMKs is enabled
 
+## Networking
+- Ensure no security groups allow ingress from 0.0.0.0/0 to port 22
+
 # Requirements
 
 Zeus has been written in bash script using AWS-CLI and it works in Linux/UNIX and OSX.
