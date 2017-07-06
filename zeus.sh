@@ -21,6 +21,8 @@ acc6="Ensure IAM password policy requires at least one lowercase letter."
 acc7="Ensure IAM password policy requires at least one symbol."
 acc8="Ensure IAM password policy requires at least one number."
 acc9="Ensure IAM password policy requires minimum length of 14 or greater."
+acc12="Ensure no root account access key exist."
+acc13="Ensure MFA is enabled for the root account."
 
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
@@ -330,11 +332,54 @@ fi
 show acc9
 echo "Result:"
 echo ""
-require_num
+min_len
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+root_access_key(){
+
+aws iam generate-credential-report 
+
+aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,9,14 | grep -B1 root > root_access_key.log
+
+echo -en "Root access key log file created as root_access_key.log"
+
+}
+
+show acc12
+echo "Result:"
+echo ""
+root_access_key
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+mfa_root(){
+
+mfa_en=$(aws iam get-account-summary | grep "AccountMFA" | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+
+if [ "$mfa_en" == "1" ]
+then
+echo "${gr}OK${xx}"
+echo ""
+echo "MFA is enabled for the root account."
+else
+echo "${re}WARNING${xx}"
+echo ""
+echo "MFA is disabled for the root account."
+fi
+
+}
+
+show acc13
+echo "Result:"
+echo ""
+mfa_root
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 
 trail_control(){
 
