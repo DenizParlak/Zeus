@@ -35,7 +35,7 @@ log8="Ensure rotation for customer created CMKs is enabled:"
 
 net1="Ensure no security groups allow ingress from 0.0.0.0/0 to port 22"
 net2="Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389"
-
+net3="Ensure VPC flow logging is enabled in all VPCs"
 
 #echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo "   ______     ______     __  __     ______"    
@@ -698,13 +698,39 @@ echo ""
 echo -en "Security groups listed on allows.log file!"
 fi
 
-
 }
 
-show net1
+show net2
 echo "Result:"
 echo ""
 port_3389
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
+
+flow_logs(){
+
+log_c=$(aws ec2 describe-flow-logs | grep FlowLogId | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e '/^$/d' | sed -e 's/^"//' | sed -e '/^$/d' | sed -e 's/.$//')
+
+aws ec2 describe-flow-logs | grep FlowLogId | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e '/^$/d' | sed -e 's/^"//' | sed -e '/^$/d' | sed -e 's/.$//' > flow_log.log
+
+
+if [ "$log_c" == "[]"  ]
+then
+echo -en "${re}WARNING${xx}"
+echo ""
+echo -e "Flow log is not active!"
+else
+echo -en "${gr}OK${xx}"
+echo ""
+echo -e "Flow log is active."
+echo -en "Flow log file is created as flow_log.log"
+fi
+}
+
+show net3
+echo "Result:"
+echo ""
+flow_logs
+echo ""
+echo -e "____________________________________________"
