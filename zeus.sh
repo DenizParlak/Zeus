@@ -23,7 +23,7 @@ acc9="Ensure IAM password policy requires minimum length of 14 or greater."
 acc12="Ensure no root account access key exist."
 acc13="Ensure MFA is enabled for the root account."
 acc15="Ensure security questions are registered in the AWS account."
-
+acc16="Ensure IAM policies are attached only to groups or roles"
 
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
