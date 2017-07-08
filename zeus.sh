@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 gr='\033[1;32m'
 re='\033[1;31m'
 xx='\033[0m'
@@ -22,7 +23,7 @@ acc9="Ensure IAM password policy requires minimum length of 14 or greater."
 acc12="Ensure no root account access key exist."
 acc13="Ensure MFA is enabled for the root account."
 acc15="Ensure security questions are registered in the AWS account."
-acc16="Ensure IAM policies are attached only to groups or roles."
+
 
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
@@ -33,22 +34,28 @@ log6="Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket:"
 log7="Ensure CloudTrail logs are encrypted at rest using KMS CMKs:"
 log8="Ensure rotation for customer created CMKs is enabled:"
 
+
+mon1="Ensure a log metric filter and alarm exist for unauthorized API calls."
+
+
 net1="Ensure no security groups allow ingress from 0.0.0.0/0 to port 22"
 net2="Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389"
-net3="Ensure VPC flow logging is enabled in all VPCs"
+net3="Ensure VPC flow logging is enabled in all VPCs."
 
-hp="$(basename "$0") [-h] [-f] -- Zeus is a friend of DevOps/SysAdmins.
+
+
+hp="$(basename "$0") [-h] [-n n] -- Zeus is a friend of DevOps/SysAdmins.
 
  options:
     -h  help menu
-    -f  don't ask for fixing to WARNING reports."
+    -n  no ask for fixing to WARNING reports."
 
 while getopts ':hn:' option; do
   case "$option" in
     h) echo "$hp"
        exit
        ;;
-    f) #!/bin/bash
+    n) #!/bin/bash
     gr='\033[1;32m'
     re='\033[1;31m'
     xx='\033[0m'
@@ -69,9 +76,9 @@ acc7="Ensure IAM password policy requires at least one symbol."
 acc8="Ensure IAM password policy requires at least one number."
 acc9="Ensure IAM password policy requires minimum length of 14 or greater."
 acc12="Ensure no root account access key exist."
-acc13="Ensure MFA is enabled for the root account.  "
-
-
+acc13="Ensure MFA is enabled for the root account."
+acc15="Ensure security questions are registered in the AWS account."
+acc16="Ensure IAM policies are attached only to groups or roles."
 
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
@@ -422,6 +429,7 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+
 sec_ques(){
 
 echo -en "No any command availability for check to security questions. You should visit https://console.aws.amazon.com/billing/home?#/account and check Configure Security Challenge Questions section."
@@ -474,6 +482,8 @@ iam_policies
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
+
+
 
 trail_control(){
 
@@ -826,13 +836,14 @@ echo -e "____________________________________________"
 echo -en '\n'
 exit 1
 ;;
-\?) printf "Illegal option: -%s\n" "$OPTARG" >&2
+   \?) printf "illegal option: -%s\n" "$OPTARG" >&2
        echo "$hp" >&2
        exit 1
        ;;
   esac
 done
 shift $((OPTIND - 1))
+
 
 #echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo "   ______     ______     __  __     ______"    
@@ -850,10 +861,12 @@ echo -en '\n'
 echo -e "${re}denizparlak@papilon.com.tr${xx}"
 echo -e "${re}twitter.com/_denizparlak${xx}"
 echo -en '\n'
-echo -e "Zeus is starting at.." `date`
+echo -e "Zeus starting at.." `date`
 #echo -en '\n'
 echo -e "____________________________________________"
 echo -en '\n'
+
+echo "qweqwe"
 
 check_aws(){
 
@@ -905,7 +918,6 @@ fi
 }
 
 check_os
-
 
 avoid_root(){
 
@@ -976,6 +988,7 @@ echo ""
 
 }
 
+
 show acc4
 echo "Result:"
 echo ""
@@ -1012,6 +1025,7 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+
 lowercase_iam(){
 
 low_c=$(aws iam get-account-password-policy | grep RequireLower | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
@@ -1023,8 +1037,8 @@ echo -en "${re}WARNING${xx}"
 echo ""
 echo -en "Lowercase letter force was not setted for IAM password policy!"
 echo ""
-read -p 'fix? y/n' fix_acc
-if [ "$fix_acc" == "y" ]
+read -p 'fix? y/n' fix_acc2
+if [ "$fix_acc2" == "y" ]
 then
 aws iam update-account-password-policy --require-lowercase-characters
 fi
@@ -1044,6 +1058,7 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
 
 symbols_req(){
 
@@ -1090,6 +1105,7 @@ if [ "$fix_acc4" == "y" ]
 then
 aws iam update-account-password-policy --require-numbers
 fi
+echo ""
 else
 echo -en "${gr}OK${xx}"
 echo ""
@@ -1105,6 +1121,9 @@ require_num
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
+
+
+
 
 min_len(){
 
@@ -1137,6 +1156,12 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+
+
+###
+
+
+
 root_access_key(){
 
 aws iam generate-credential-report 
@@ -1162,11 +1187,11 @@ mfa_en=$(aws iam get-account-summary | grep "AccountMFA" | awk -F ":" '{print $2
 
 if [ "$mfa_en" == "1" ]
 then
-echo "${gr}OK${xx}"
+echo -en "${gr}OK${xx}"
 echo ""
-echo "MFA is enabled for the root account."
+echo -en "MFA is enabled for the root account."
 else
-echo "${re}WARNING${xx}"
+echo -en "${re}WARNING${xx}"
 echo ""
 echo "MFA is disabled for the root account."
 fi
@@ -1212,9 +1237,9 @@ echo -en "${yw}INFORMATION${xx}"
 echo ""
 echo -e "IAM user not found!"
 else
-echo -e "IAM user: $iam_users" 
+echo -e "IAM user: " $iam_users
 echo ""
-if [ "$attc_pol" == "[]" || "$pol_name" == "[]" ]
+if [[ "$attc_pol" == "[]" || "$pol_name" == "[]" ]]
 then
 echo -en "${gr}OK${xx}"
 echo ""
@@ -1222,6 +1247,7 @@ echo -e "No any policy attached to IAM users."
 else
 echo -en "${re}WARNING${xx}"
 echo ""
+echo "Policy attached to $iam_users!"
 fi
 fi
 }
@@ -1233,6 +1259,9 @@ iam_policies
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
+
+
+
 
 trail_control(){
 
@@ -1284,7 +1313,7 @@ echo ""
 trail_control
 echo ""
 echo -e "____________________________________________"
-
+echo -en '\n'
 
 #fix_trail(){
 
@@ -1330,7 +1359,7 @@ echo ""
 trail_log_control
 echo ""
 echo -e "____________________________________________"
-
+echo -en '\n'
 
 s3_bucket_log(){
 
@@ -1383,7 +1412,7 @@ echo ""
 s3_bucket_log
 echo ""
 echo -e "____________________________________________"
-
+echo -en '\n'
 
 cloudwatch(){
 
@@ -1398,7 +1427,10 @@ echo -e "${gr}OK${xx}"
 echo -e "CloudWatch is enable!"
 fi
 
+
+
 }
+
 
 show log4
 echo "Result:"
@@ -1406,7 +1438,7 @@ echo ""
 cloudwatch
 echo ""
 echo -e "____________________________________________"
-
+echo -en '\n'
 
 s3_access_log(){
 
@@ -1429,6 +1461,7 @@ echo ""
 s3_access_log
 echo ""
 echo -e "____________________________________________"
+echo -en '\n'
 
 cmk_kms(){
 
@@ -1451,6 +1484,7 @@ echo ""
 cmk_kms
 echo ""
 echo -e "____________________________________________"
+echo -en '\n'
 
 cmk(){
 
@@ -1493,8 +1527,14 @@ echo ""
 cmk
 echo ""
 echo -e "____________________________________________"
+echo -en '\n'
+
+
+
+###
 
 port_22(){
+
 
 bl=$(aws ec2 describe-security-groups --filters Name=ip-permission.to-port,Values=22 | grep GroupName | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
 
@@ -1526,8 +1566,8 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
-
 port_3389(){
+
 
 bl=$(aws ec2 describe-security-groups --filters Name=ip-permission.to-port,Values=3389 | grep GroupName | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
 
@@ -1539,14 +1579,15 @@ if [[ $bl = "" ]]
 then
 echo -en "${gr}OK${xx}"
 echo ""
-echo -en "No security group has allow to port 22."
+echo -en "No security group has allow to port 3389."
 else
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -en "$bl_num security group has allow to port 22!"
+echo -en "$bl_num security group has allow to port 3389!"
 echo ""
 echo -en "Security groups listed on allows.log file!"
 fi
+
 
 }
 
@@ -1557,6 +1598,7 @@ port_3389
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
+
 
 flow_logs(){
 
@@ -1584,3 +1626,22 @@ echo ""
 flow_logs
 echo ""
 echo -e "____________________________________________"
+echo -en '\n'
+
+
+#monitoring initialized
+
+#metric_filter(){
+
+#metric_g=$(aws cloudtrail describe-trails | grep CloudWatchLogsLog | awk -F ":" '{print $8}')
+
+#m_filt=$(aws logs describe-metric-filters --log-group-name $metric_g)
+
+
+#show mon1
+#echo "Result:"
+#echo ""
+#metric_filter
+#echo ""
+#printf "-----------------------------------------"
+#'
