@@ -21,6 +21,8 @@ acc8="Ensure IAM password policy requires at least one number."
 acc9="Ensure IAM password policy requires minimum length of 14 or greater."
 acc12="Ensure no root account access key exist."
 acc13="Ensure MFA is enabled for the root account."
+acc15="Ensure security questions are registered in the AWS account."
+acc16="Ensure IAM policies are attached only to groups or roles."
 
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
@@ -416,6 +418,59 @@ show acc13
 echo "Result:"
 echo ""
 mfa_root
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+sec_ques(){
+
+echo -en "No any command availability for check to security questions. You should visit https://console.aws.amazon.com/billing/home?#/account and check Configure Security Challenge Questions section."
+
+
+}
+
+show acc15
+echo "Result:"
+echo ""
+sec_ques
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+iam_policies(){
+
+iam_users_check=$(aws iam list-users | grep Users | awk -F ":" '{print $2}' | sed -e 's/^.//')
+
+iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//')
+
+attc_pol=$(aws iam list-attached-user-policies --user-name $iam_users)
+pol_name=$(aws iam list-user-policies --user-name $iam_users)
+
+if [ "$iam_users" == "[]"  ]
+then
+echo -en "${yw}INFORMATION${xx}"
+echo ""
+echo -e "IAM user not found!"
+else
+echo -e "IAM user: $iam_users" 
+echo ""
+if [ "$attc_pol" == "[]" || "$pol_name" == "[]" ]
+then
+echo -en "${gr}OK${xx}"
+echo ""
+echo -e "No any policy attached to IAM users."
+else
+echo -en "${re}WARNING${xx}"
+echo ""
+fi
+fi
+}
+
+show acc16
+echo "Result:"
+echo ""
+iam_policies
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
@@ -1122,6 +1177,59 @@ show acc13
 echo "Result:"
 echo ""
 mfa_root
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+sec_ques(){
+
+echo -en "No any command availability for check to security questions. You should visit https://console.aws.amazon.com/billing/home?#/account and check Configure Security Challenge Questions section."
+
+
+}
+
+show acc15
+echo "Result:"
+echo ""
+sec_ques
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+iam_policies(){
+
+iam_users_check=$(aws iam list-users | grep Users | awk -F ":" '{print $2}' | sed -e 's/^.//')
+
+iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//')
+
+attc_pol=$(aws iam list-attached-user-policies --user-name $iam_users)
+pol_name=$(aws iam list-user-policies --user-name $iam_users)
+
+if [ "$iam_users" == "[]"  ]
+then
+echo -en "${yw}INFORMATION${xx}"
+echo ""
+echo -e "IAM user not found!"
+else
+echo -e "IAM user: $iam_users" 
+echo ""
+if [ "$attc_pol" == "[]" || "$pol_name" == "[]" ]
+then
+echo -en "${gr}OK${xx}"
+echo ""
+echo -e "No any policy attached to IAM users."
+else
+echo -en "${re}WARNING${xx}"
+echo ""
+fi
+fi
+}
+
+show acc16
+echo "Result:"
+echo ""
+iam_policies
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
