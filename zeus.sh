@@ -1004,7 +1004,8 @@ echo -en '\n'
 
 uppercase_iam(){
 
-if aws iam get-account-password-policy | grep NoSuch
+up_c=$(aws iam get-account-password-policy | grep RequireUpper | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+if aws iam get-account-password-policy | grep "NoSuch" || [ "$up_c" == "false" ]
 then
 echo -en "${re}WARNING${xx}"
 echo ""
@@ -1033,7 +1034,7 @@ echo -en '\n'
 
 lowercase_iam(){
 
-low_c=$(aws iam get-account-password-policy | grep RequireLower | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+low_c=$(aws iam get-account-password-policy | grep RequireLower | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//'))
 
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$low_c" == "false" ]
@@ -1132,7 +1133,7 @@ echo -en '\n'
 
 min_len(){
 
-min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//'))
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$min_n" == "6" ]
 then
