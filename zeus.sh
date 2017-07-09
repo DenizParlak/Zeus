@@ -250,9 +250,12 @@ echo -en '\n'
 
 uppercase_iam(){
 
-if aws iam get-account-password-policy | grep NoSuch
+up_c=$(aws iam get-account-password-policy | grep RequireUpper | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+
+if aws iam get-account-password-policy | grep "NoSuch" || [ "$up_c" == "false" ]
 then
 echo -en "${re}WARNING${xx}"
+echo ""
 echo -en "Uppercase letter force was not setted for IAM password policy!"
 else
 echo -en "${gr}OK${xx}"
@@ -298,7 +301,7 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
-sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/^\s*//' | sed -e 's/.$//')
 
 symbols_req(){
 
@@ -327,7 +330,7 @@ echo -en '\n'
 
 require_num(){
 
-num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$num_c" == "false" ]
 then
@@ -356,18 +359,18 @@ echo -en '\n'
 
 min_len(){
 
-min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$min_n" == "6" ]
 then
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -en "Required minimum length = 6"
+echo -en "Required minimum length = 14"
 echo ""
 else
 echo -en "${gr}OK${xx}"
 echo ""
-echo -en "Required minimum length = 14"
+echo -en "Minimum number length is $min_n now."
 fi
 
 }
@@ -451,7 +454,7 @@ iam_policies(){
 
 iam_users_check=$(aws iam list-users | grep Users | awk -F ":" '{print $2}' | sed -e 's/^.//')
 
-iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//')
+iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//' | sed -e 's/.$//')
 
 attc_pol=$(aws iam list-attached-user-policies --user-name $iam_users)
 pol_name=$(aws iam list-user-policies --user-name $iam_users)
@@ -464,7 +467,7 @@ echo -e "IAM user not found!"
 else
 echo -e "IAM user: $iam_users" 
 echo ""
-if [ "$attc_pol" == "[]" || "$pol_name" == "[]" ]
+if [ "$attc_pol" == "[]" ] || [ "$pol_name" == "[]" ]
 then
 echo -en "${gr}OK${xx}"
 echo ""
@@ -1004,6 +1007,7 @@ uppercase_iam(){
 if aws iam get-account-password-policy | grep NoSuch
 then
 echo -en "${re}WARNING${xx}"
+echo ""
 echo -en "Uppercase letter force was not setted for IAM password policy!"
 read -p 'fix? y/n' fix_acc
 if [ "$fix_acc" == "y" ]
@@ -1059,7 +1063,7 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
-sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
 
 symbols_req(){
 
@@ -1093,7 +1097,7 @@ echo -en '\n'
 
 require_num(){
 
-num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$num_c" == "false" ]
 then
@@ -1227,7 +1231,7 @@ iam_policies(){
 
 iam_users_check=$(aws iam list-users | grep Users | awk -F ":" '{print $2}' | sed -e 's/^.//')
 
-iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//')
+iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//' | sed -e 's/.$//')
 
 attc_pol=$(aws iam list-attached-user-policies --user-name $iam_users)
 pol_name=$(aws iam list-user-policies --user-name $iam_users)
@@ -1240,7 +1244,7 @@ echo -e "IAM user not found!"
 else
 echo -e "IAM user: " $iam_users
 echo ""
-if [[ "$attc_pol" == "[]" || "$pol_name" == "[]" ]]
+if [[ "$attc_pol" == "[]" ] || [ "$pol_name" == "[]" ]]
 then
 echo -en "${gr}OK${xx}"
 echo ""
