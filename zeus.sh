@@ -250,7 +250,7 @@ echo -en '\n'
 
 uppercase_iam(){
 
-up_c=$(aws iam get-account-password-policy | grep RequireUpper | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+up_c=$(aws iam get-account-password-policy | grep RequireUpper | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$up_c" == "false" ]
 then
@@ -301,7 +301,7 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
-sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/^\s*//')
 
 symbols_req(){
 
@@ -330,7 +330,7 @@ echo -en '\n'
 
 require_num(){
 
-num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$num_c" == "false" ]
 then
@@ -359,7 +359,7 @@ echo -en '\n'
 
 min_len(){
 
-min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$min_n" == "6" ]
 then
@@ -454,7 +454,7 @@ iam_policies(){
 
 iam_users_check=$(aws iam list-users | grep Users | awk -F ":" '{print $2}' | sed -e 's/^.//')
 
-iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//' | sed -e 's/.$//')
+iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//')
 
 attc_pol=$(aws iam list-attached-user-policies --user-name $iam_users)
 pol_name=$(aws iam list-user-policies --user-name $iam_users)
@@ -494,7 +494,7 @@ trail_control(){
 list=$(aws cloudtrail describe-trails | grep trailList | awk -F ":" '{print $2}')
 e_list=" []"
 
-trail_n=$(aws cloudtrail describe-trails | grep Name | grep -v S3 | awk -F ":" '{print $2}' | sed -e 's/^\s*//' -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//' | sed -e 's/.$//')
+trail_n=$(aws cloudtrail describe-trails | grep Name | grep -v S3 | awk -F ":" '{print $2}' | sed -e 's/^\s*//' -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
 
 region_trail=$(aws cloudtrail describe-trails | egrep '*IsM*' | tr -s [:space:] | awk -F ":" '{print $2}')
 
@@ -579,7 +579,7 @@ echo -en '\n'
 
 s3_bucket_log(){
 
-ct_bucket=$(aws cloudtrail describe-trails --query 'trailList[*].S3BucketName'  | grep [a-Z][0-9] | sed -e 's/^\s*//' -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
+ct_bucket=$(aws cloudtrail describe-trails --query 'trailList[*].S3BucketName'  | grep [0-9A-Z] | sed -e 's/^\s*//' -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
 
 echo -en "S3 Bucket: $ct_bucket"
 
@@ -1002,7 +1002,8 @@ echo -en '\n'
 
 uppercase_iam(){
 
-up_c=$(aws iam get-account-password-policy | grep RequireUpper | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+up_c=$(aws iam get-account-password-policy | grep RequireUpper | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
+
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$up_c" == "false" ]
 then
 echo -en "${re}WARNING${xx}"
@@ -1032,7 +1033,7 @@ echo -en '\n'
 
 lowercase_iam(){
 
-low_c=$(aws iam get-account-password-policy | grep RequireLower | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+low_c=$(aws iam get-account-password-policy | grep RequireLower | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
 
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$low_c" == "false" ]
@@ -1062,7 +1063,7 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
-sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+sym_c=$(aws iam get-account-password-policy | grep RequireSym | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
 
 symbols_req(){
 
@@ -1096,7 +1097,7 @@ echo -en '\n'
 
 require_num(){
 
-num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
+num_c=$(aws iam get-account-password-policy | grep RequireNumber | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$num_c" == "false" ]
 then
@@ -1131,7 +1132,7 @@ echo -en '\n'
 
 min_len(){
 
-min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//'))
+min_n=$(aws iam get-account-password-policy | grep Minimum | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//')
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$min_n" == "6" ]
 then
@@ -1230,7 +1231,7 @@ iam_policies(){
 
 iam_users_check=$(aws iam list-users | grep Users | awk -F ":" '{print $2}' | sed -e 's/^.//')
 
-iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//' | sed -e 's/.$//')
+iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//')
 
 attc_pol=$(aws iam list-attached-user-policies --user-name $iam_users)
 pol_name=$(aws iam list-user-policies --user-name $iam_users)
@@ -1243,7 +1244,7 @@ echo -e "IAM user not found!"
 else
 echo -e "IAM user: " $iam_users
 echo ""
-if [[ "$attc_pol" == "[]" ] || [ "$pol_name" == "[]" ]]
+if [[ "$attc_pol" == "[]" ]] || [[ "$pol_name" == "[]" ]]
 then
 echo -en "${gr}OK${xx}"
 echo ""
@@ -1272,7 +1273,7 @@ trail_control(){
 list=$(aws cloudtrail describe-trails | grep trailList | awk -F ":" '{print $2}')
 e_list=" []"
 
-trail_n=$(aws cloudtrail describe-trails | grep Name | grep -v S3 | awk -F ":" '{print $2}' | sed -e 's/^\s*//' -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//' | sed -e 's/.$//')
+trail_n=$(aws cloudtrail describe-trails | grep Name | grep -v S3 | awk -F ":" '{print $2}' | sed -e 's/^\s*//' -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
 
 region_trail=$(aws cloudtrail describe-trails | egrep '*IsM*' | tr -s [:space:] | awk -F ":" '{print $2}')
 
@@ -1367,7 +1368,7 @@ echo -en '\n'
 
 s3_bucket_log(){
 
-ct_bucket=$(aws cloudtrail describe-trails --query 'trailList[*].S3BucketName'  | grep [a-Z][0-9] | sed -e 's/^\s*//' -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
+ct_bucket=$(aws cloudtrail describe-trails --query 'trailList[*].S3BucketName'  | grep [0-9A-Z] | sed -e 's/^\s*//' -e '/^$/d' | sed -e 's/^"//' | sed -e 's/.$//')
 
 echo -en "S3 Bucket: $ct_bucket"
 
