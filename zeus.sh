@@ -44,11 +44,11 @@ net3="Ensure VPC flow logging is enabled in all VPCs."
 
 
 
-hp="$(basename "$0") [-h] [-n n] -- Zeus is a friend of DevOps/SysAdmins.
+hp="$(basename "$0") [-h] [-n 1] -- Zeus is a friend of DevOps/SysAdmins.
 
  options:
     -h  help menu
-    -n  no ask for fixing to WARNING reports."
+    -n  1 no ask for fixing to WARNING reports."
 
 while getopts ':hn:' option; do
   case "$option" in
@@ -364,6 +364,7 @@ echo -en "${re}WARNING${xx}"
 echo ""
 echo -en "Required minimum length = 6"
 echo ""
+else
 echo -en "${gr}OK${xx}"
 echo ""
 echo -en "Required minimum length = 14"
