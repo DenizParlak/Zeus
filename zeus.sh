@@ -870,8 +870,6 @@ echo -e "Zeus starting at.." `date`
 echo -e "____________________________________________"
 echo -en '\n'
 
-echo "qweqwe"
-
 check_aws(){
 
 type "$1" &> /dev/null
@@ -1034,7 +1032,7 @@ echo -en '\n'
 
 lowercase_iam(){
 
-low_c=$(aws iam get-account-password-policy | grep RequireLower | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//'))
+low_c=$(aws iam get-account-password-policy | grep RequireLower | awk -F ":" '{print $2}' | sed -e 's/.$//' | sed -e 's/^\s*//' | sed -e 's/.$//')
 
 
 if aws iam get-account-password-policy | grep "NoSuch" || [ "$low_c" == "false" ]
