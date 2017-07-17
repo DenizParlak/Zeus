@@ -134,29 +134,29 @@ check_os(){
 
 if [[ $OSTYPE == darwin* ]]
 then
-echo -e "${yw}INFO${xx}: Operating System: MacOS"
+echo -e "${yw}INFO${xx}: Operating System: MacOS" | tee -a reports/reports.1
 if check_pip pip ; then
-echo -e "${yw}INFO{$xx}: pip is installed on the system."
+echo -e "${yw}INFO{$xx}: pip is installed on the system." | tee -a reports/reports.1
 else
 curl -O https://bootstrap.pypa.io/get-pip.py &> /dev/null
 python3 get-pip.py --user &> /dev/null
 fi
 if check_aws aws ; then
-echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system."
+echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system." | tee -a reports/reports.1
 else
 pip3 install --user --upgrade awscli &> /dev/null
 fi
 echo ""
 elif [[ "$OSTYPE" == linux* ]]
 then
-echo -e "${yw}INFO${xx}: Operating System: Linux"
+echo -e "${yw}INFO${xx}: Operating System: Linux" | tee -a reports/reports.1
 if check_pip pip; then
-echo -e "${yw}INFO${xx}: pip is installed on the system."
+echo -e "${yw}INFO${xx}: pip is installed on the system." | tee -a reports/reports.1
 else
 pip install awscli --upgrade --user &> /dev/null
 fi
 if check_aws aws ; then
-echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system."
+echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system." | tee -a reports/reports.1
 echo -e "____________________________________________"
 echo -en '\n'
 else
@@ -173,7 +173,7 @@ avoid_root(){
 
 cre_rep=$(aws iam generate-credential-report)
 aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,5,11,16 > credential_reports.txt
-echo -en "IAM credential report file created as 'credential_reports.txt'"
+echo -en "IAM credential report file created as 'credential_reports.txt'" | tee -a reports/reports.1
 echo ""
 
 }
@@ -192,7 +192,7 @@ mfa_iam(){
 
 aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,4,8 > mfa_reports.txt
 
-echo -en "MFA credential report file created as 'mfa_reports.txt'"
+echo -en "MFA credential report file created as 'mfa_reports.txt'" | tee -a reports/reports.1
 echo ""
 
 }
@@ -233,7 +233,7 @@ rotated_90(){
 
 aws iam get-credential-report --query 'Content' --output text | base64 -d > access_key.log
 
-echo -en "Access keys rotate log file created as access_key.log"
+echo -en "Access keys rotate log file created as access_key.log" | tee -a reports/reports.1
 echo ""
 
 }
@@ -256,11 +256,11 @@ if aws iam get-account-password-policy | grep "NoSuch" || [ "$up_c" == "false" ]
 then
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -en "Uppercase letter force was not setted for IAM password policy!"
+echo -en "Uppercase letter force was not setted for IAM password policy!" | tee -a reports/reports.1
 else
 echo -en "${gr}OK${xx}"
 echo ""
-echo -en "Uppercase letter force active!"
+echo -en "Uppercase letter force active!" | tee -a reports/reports.1
 fi
 
 }
@@ -283,7 +283,7 @@ if aws iam get-account-password-policy | grep "NoSuch" || [ "$low_c" == "false" 
 then
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -en "Lowercase letter force was not setted for IAM password policy!"
+echo -en "Lowercase letter force was not setted for IAM password policy!" | tee -a reports/reports.1
 echo ""
 else
 echo -en "${gr}OK${xx}"
@@ -309,7 +309,7 @@ if aws iam get-account-password-policy | grep "NoSuch" || [ "$sym_c" == "false" 
 then
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -en "At least one symbol force was not setted for IAM password policy!"
+echo -en "At least one symbol force was not setted for IAM password policy!" | tee -a reports/reports.1
 echo ""
 else
 echo -en "${gr}OK${xx}"
@@ -336,7 +336,7 @@ if aws iam get-account-password-policy | grep "NoSuch" || [ "$num_c" == "false" 
 then
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -en "Number force was not setted for IAM password policy!"
+echo -en "Number force was not setted for IAM password policy!" | tee -a reports/reports.1
 echo ""
 else
 echo -en "${gr}OK${xx}"
@@ -395,7 +395,7 @@ aws iam generate-credential-report
 
 aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,9,14 | grep -B1 root > root_access_key.log
 
-echo -en "Root access key log file created as root_access_key.log"
+echo -en "Root access key log file created as root_access_key.log" | tee -a reports/reports.1
 
 }
 
@@ -416,11 +416,11 @@ if [ "$mfa_en" == "1" ]
 then
 echo -en "${gr}OK${xx}"
 echo ""
-echo -en "MFA is enabled for the root account."
+echo -en "MFA is enabled for the root account." | tee -a reports/reports.1
 else
 echo -en "${re}WARNING${xx}"
 echo ""
-echo "MFA is disabled for the root account."
+echo "MFA is disabled for the root account." | tee -a reports/reports.1
 fi
 
 }
@@ -436,7 +436,7 @@ echo -en '\n'
 
 sec_ques(){
 
-echo -en "No any command availability for check to security questions. You should visit https://console.aws.amazon.com/billing/home?#/account and check Configure Security Challenge Questions section."
+echo -en "No any command availability for check to security questions. You should visit https://console.aws.amazon.com/billing/home?#/account and check Configure Security Challenge Questions section." | tee -a reports/reports.1
 
 
 }
@@ -463,7 +463,7 @@ if [ "$iam_users" == "[]"  ]
 then
 echo -en "${yw}INFORMATION${xx}"
 echo ""
-echo -e "IAM user not found!"
+echo -e "IAM user not found!" | tee -a reports/reports.1
 else
 echo -e "IAM user: $iam_users" 
 echo ""
@@ -471,7 +471,7 @@ if [ "$attc_pol" == "[]" ] || [ "$pol_name" == "[]" ]
 then
 echo -en "${gr}OK${xx}"
 echo ""
-echo -e "No any policy attached to IAM users."
+echo -e "No any policy attached to IAM users." | tee -a reports/reports.1
 else
 echo -en "${re}WARNING${xx}"
 echo ""
@@ -515,14 +515,14 @@ echo -e "${gr}OK${xx}"
 if [ "$list" == "$e_list" ]
 then
 echo -e "${yw}INFORMATION${xx}"
-echo -e "Trail not found!"
+echo -e "Trail not found!" | tee -a reports/reports.1
 elif [ "$region_trail" == "$f_trail" ]
 then
 echo -e "${gr}OK${xx}"
-echo "Multi region trail is active."
+echo "Multi region trail is active." | tee -a reports/reports.1
 else
 echo -e "${re}WARNING${xx}"
-echo "Trail found but multi region is not active."
+echo "Trail found but multi region is not active." | tee -a reports/reports.1
 echo ""
 fi
 
@@ -555,11 +555,11 @@ aws cloudtrail update-trail --name $trail_n --enable-log-file-validation
 if [ "$log_e" == "$t_log" ]
 then
 echo -e "${gr}OK${xx}"
-echo "Log file validation is enabled."
+echo "Log file validation is enabled." | tee -a reports/reports.1
 elif [ "$log_e" == "$f_log" ]
 then
 echo -e "${yw}INFORMATION${xx}"
-echo "Log file validation is disabled."
+echo "Log file validation is disabled." | tee -a reports/reports.1
 else
 echo -e "${re}WARNING${xx}"
 echo "Trail not found."
@@ -602,10 +602,10 @@ ct_bucket_aut=$(aws s3api get-bucket-acl --bucket $ct_bucket --query 'Grants[?Gr
 if [ "$ct_bucket_aut" == "[]"  ]
 then
 echo -e "${gr}OK${xx}"
-echo -e "Authentication policy true!"
+echo -e "Authentication policy true!" | tee -a reports/reports.1
 else
 echo -e "${re}WARNING${xx}"
-echo -e "Authenticated users are granted!"
+echo -e "Authenticated users are granted!" | tee -a reports/reports.1
 fi
 
 
@@ -614,10 +614,10 @@ s3_bucket_policy=$(aws s3api get-bucket-policy --bucket $ct_bucket)
 if [ "$s3_bucket_policy" == "[]"  ]
 then
 echo -e "${gr}OK${xx}"
-echo -e "Bucket policy is fine!"
+echo -e "Bucket policy is fine!" | tee -a reports/reports.1
 else
 echo -e "${re}WARNING${xx}"
-echo -e "Bucket policy should be fix!"
+echo -e "Bucket policy should be fix!" | tee -a reports/reports.1
 fi
 
 }
@@ -637,10 +637,10 @@ cdw=$(aws cloudtrail describe-trails | grep Cloud | sed -e 's/^\s*//' -e '/^$/d'
 if [ "$cdw" == "[]" ]
 then
 echo -e "${re}WARNING${xx}"
-echo -e "CloudWatch is not enable!"
+echo -e "CloudWatch is not enable!" | tee -a reports/reports.1
 else
 echo -e "${gr}OK${xx}"
-echo -e "CloudWatch is enable!"
+echo -e "CloudWatch is enable!" | tee -a reports/reports.1
 fi
 
 
@@ -663,10 +663,10 @@ bucket_log=$(aws s3api get-bucket-logging --bucket $ct_bucket)
 if [ "$bucket_log" == "" ]
 then
 echo -e "${re}WARNING${xx}"
-echo -e "S3 Bucket logging is disabled."
+echo -e "S3 Bucket logging is disabled." | tee -a reports/reports.1
 else
 echo -e "${gr}OK${xx}"
-echo -e "S3 Bucket logging is enabled."
+echo -e "S3 Bucket logging is enabled." | tee -a reports/reports.1
 fi
 
 }
@@ -686,10 +686,10 @@ kms_e=$(aws cloudtrail describe-trails | grep Kms)
 if [ "$kms_e" == "" ]
 then
 echo -e "${re}WARNING${xx}"
-echo "SSE KMS is disabled!"
+echo "SSE KMS is disabled!" | tee -a reports/reports.1
 else
 echo -e "${gr}OK${xx}"
-echo "SSE KMS is enabled!"
+echo "SSE KMS is enabled!" | tee -a reports/reports.1
 fi
 
 }
@@ -1194,11 +1194,11 @@ if [ "$mfa_en" == "1" ]
 then
 echo -en "${gr}OK${xx}"
 echo ""
-echo -en "MFA is enabled for the root account."
+echo -en "MFA is enabled for the root account." | tee -a reports/reports.1
 else
 echo -en "${re}WARNING${xx}"
 echo ""
-echo "MFA is disabled for the root account."
+echo "MFA is disabled for the root account." | tee -a reports/reports.1
 fi
 
 }
@@ -1240,7 +1240,7 @@ if [ "$iam_users" == "[]"  ]
 then
 echo -en "${yw}INFORMATION${xx}"
 echo ""
-echo -e "IAM user not found!"
+echo -e "IAM user not found!" | tee -a reports/reports.1
 else
 echo -e "IAM user: " $iam_users
 echo ""
@@ -1248,11 +1248,11 @@ if [[ "$attc_pol" == "[]" ]] || [[ "$pol_name" == "[]" ]]
 then
 echo -en "${gr}OK${xx}"
 echo ""
-echo -e "No any policy attached to IAM users."
+echo -e "No any policy attached to IAM users." | tee -a reports/reports.1
 else
 echo -en "${re}WARNING${xx}"
 echo ""
-echo "Policy attached to $iam_users!"
+echo "Policy attached to $iam_users!" | tee -a reports/reports.1
 fi
 fi
 }
@@ -1294,14 +1294,14 @@ echo -e "${gr}OK${xx}"
 if [ "$list" == "$e_list" ]
 then
 echo -e "${yw}INFORMATION${xx}"
-echo -e "Trail not found!"
+echo -e "Trail not found!" | tee -a reports/reports.1
 elif [ "$region_trail" == "$f_trail" ]
 then
 echo -e "${gr}OK${xx}"
-echo "Multi region trail is active."
+echo "Multi region trail is active." | tee -a reports/reports.1
 else
 echo -e "${re}WARNING${xx}"
-echo "Trail found but multi region is not active."
+echo "Trail found but multi region is not active." | tee -a reports/reports.1
 read -p 'Fix? y/n' fix1
 if [ "$fix1" == "y" ]
 then
@@ -1339,11 +1339,11 @@ aws cloudtrail update-trail --name $trail_n --enable-log-file-validation
 if [ "$log_e" == "$t_log" ]
 then
 echo -e "${gr}OK${xx}"
-echo "Log file validation is enabled."
+echo "Log file validation is enabled." | tee -a reports/reports.1
 elif [ "$log_e" == "$f_log" ]
 then
 echo -e "${yw}INFORMATION${xx}"
-echo "Log file validation is disabled."
+echo "Log file validation is disabled." | tee -a reports/reports.1
 read -p 'Fix? y/n' fix2
 if [ "$fix2" == "y" ]
 then
@@ -1391,10 +1391,10 @@ ct_bucket_aut=$(aws s3api get-bucket-acl --bucket $ct_bucket --query 'Grants[?Gr
 if [ "$ct_bucket_aut" == "[]"  ]
 then
 echo -e "${gr}OK${xx}"
-echo -e "Authentication policy true!"
+echo -e "Authentication policy true!" | tee -a reports/reports.1
 else
 echo -e "${re}WARNING${xx}"
-echo -e "Authenticated users are granted!"
+echo -e "Authenticated users are granted!" | tee -a reports/reports.1
 fi
 
 
@@ -1426,10 +1426,10 @@ cdw=$(aws cloudtrail describe-trails | grep Cloud | sed -e 's/^\s*//' -e '/^$/d'
 if [ "$cdw" == "[]" ]
 then
 echo -e "${re}WARNING${xx}"
-echo -e "CloudWatch is not enable!"
+echo -e "CloudWatch is not enable!" | tee -a reports/reports.1
 else
 echo -e "${gr}OK${xx}"
-echo -e "CloudWatch is enable!"
+echo -e "CloudWatch is enable!" | tee -a reports/reports.1
 fi
 
 
@@ -1452,10 +1452,10 @@ bucket_log=$(aws s3api get-bucket-logging --bucket $ct_bucket)
 if [ "$bucket_log" == "" ]
 then
 echo -e "${re}WARNING${xx}"
-echo -e "S3 Bucket logging is disabled."
+echo -e "S3 Bucket logging is disabled." | tee -a reports/reports.1
 else
 echo -e "${gr}OK${xx}"
-echo -e "S3 Bucket logging is enabled."
+echo -e "S3 Bucket logging is enabled." | tee -a reports/reports.1
 fi
 
 }
@@ -1475,10 +1475,10 @@ kms_e=$(aws cloudtrail describe-trails | grep Kms)
 if [ "$kms_e" == "" ]
 then
 echo -e "${re}WARNING${xx}"
-echo "SSE KMS is disabled!"
+echo "SSE KMS is disabled!" | tee -a reports/reports.1
 else
 echo -e "${gr}OK${xx}"
-echo "SSE KMS is enabled!"
+echo "SSE KMS is enabled!" | tee -a reports/reports.1
 fi
 
 }
@@ -1508,12 +1508,12 @@ aws kms enable-key-rotation --key-id $key_id
 if [ "$kms_l" == "$keys_e" ]
 then
 echo -e "${re}WARNING${xx}"
-echo "Master Key not found!"
+echo "Master Key not found!" | tee -a reports/reports.1
 rotation_e=$(aws kms get-key-rotation-status --key-id $key_id | egrep KeyRot | awk -F ":" '{print $2}' | sed -e 's/^\s*//' -e '/^$/d')
 elif [ "$rotation_s" == "false" ]
 then
 echo -e "${yw}INFORMATION${xx}"
-echo "Key Rotation is disabled!"
+echo "Key Rotation is disabled!" | tee -a reports/reports.1
 read -p "Fix it? y/n" fix3
 if [ "$fix3" == "y" ]
 then
@@ -1521,7 +1521,7 @@ fix_key_rotation
 fi
 else
 echo -e "${gr}OK${xx}"
-echo "Key rotation is enabled!"
+echo "Key rotation is enabled!" | tee -a reports/reports.1
 fi
 
 }
@@ -1551,13 +1551,13 @@ if [[ $bl = "" ]]
 then
 echo -en "${gr}OK${xx}"
 echo ""
-echo -en "No security group has allow to port 22."
+echo -en "No security group has allow to port 22." | tee -a reports/reports.1
 else
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -en "$bl_num security group has allow to port 22!"
+echo -en "$bl_num security group has allow to port 22!" | tee -a reports/reports.1
 echo ""
-echo -en "Security groups listed on allows.log file!"
+echo -en "Security groups listed on allows.log file!" | tee -a reports/reports.1
 fi
 
 
@@ -1584,13 +1584,13 @@ if [[ $bl = "" ]]
 then
 echo -en "${gr}OK${xx}"
 echo ""
-echo -en "No security group has allow to port 3389."
+echo -en "No security group has allow to port 3389." | tee -a reports/reports.1
 else
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -en "$bl_num security group has allow to port 3389!"
+echo -en "$bl_num security group has allow to port 3389!" | tee -a reports/reports.1
 echo ""
-echo -en "Security groups listed on allows.log file!"
+echo -en "Security groups listed on allows.log file!" | tee -a reports/reports.1
 fi
 
 
@@ -1616,12 +1616,12 @@ if [ "$log_c" == "[]"  ]
 then
 echo -en "${re}WARNING${xx}"
 echo ""
-echo -e "Flow log is not active!"
+echo -e "Flow log is not active!" | tee -a reports/reports.1
 else
 echo -en "${gr}OK${xx}"
 echo ""
-echo -e "Flow log is active."
-echo -en "Flow log file is created as flow_log.log"
+echo -e "Flow log is active." | tee -a reports/reports.1
+echo -en "Flow log file is created as flow_log.log" | tee -a reports/reports.1
 fi
 }
 
