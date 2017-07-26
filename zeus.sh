@@ -66,37 +66,6 @@ show(){
 printf "${!1}\n"
 }
 
-acc1="Avoid the use of the root account."
-acc2="Ensure MFA is enabled for all IAM users that have a console password."
-acc3="Ensure credentials unused for 90 days or greater are disabled."
-acc4="Ensure access keys are rotated every 90 days or less."
-acc5="Ensure IAM password policy requires at least one uppercase letter."
-acc6="Ensure IAM password policy requires at least one lowercase letter."
-acc7="Ensure IAM password policy requires at least one symbol."
-acc8="Ensure IAM password policy requires at least one number."
-acc9="Ensure IAM password policy requires minimum length of 14 or greater."
-acc12="Ensure no root account access key exist."
-acc13="Ensure MFA is enabled for the root account."
-acc15="Ensure security questions are registered in the AWS account."
-acc16="Ensure IAM policies are attached only to groups or roles."
-
-log1="Ensure CloudTrail is enabled in all regions:"
-log2="Ensure CloudTrail log file validation is enabled:"
-log3="Ensure the S3 bucket CloudTrail logs to is not publicly accessible:"
-log4="Ensure CloudTrail trails are integrated with CloudWatch logs:"
-log5="Ensure AWS Config is enabled in all regions:"
-log6="Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket:"
-log7="Ensure CloudTrail logs are encrypted at rest using KMS CMKs:"
-log8="Ensure rotation for customer created CMKs is enabled:"
-
-
-mon1="Ensure a log metric filter and alarm exist for unauthorized API calls."
-
-
-net1="Ensure no security groups allow ingress from 0.0.0.0/0 to port 22"
-net2="Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389"
-net3="Ensure VPC flow logging is enabled in all VPCs."
-
 #echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo "   ______     ______     __  __     ______"    
 echo "  /\___  \   /\  ___\   /\ \/\ \   /\  ___\ "   
