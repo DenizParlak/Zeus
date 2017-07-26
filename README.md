@@ -35,6 +35,10 @@ Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best ha
 - Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389
 - Ensure VPC flow logging is enabled in all VPC
 
+### ChangeLog
+
+Soon.
+
 # Requirements
 
 Zeus has been written in bash script using AWS-CLI and it works in Linux/UNIX and OSX.
