@@ -55,7 +55,7 @@ while getopts ':hn:' option; do
     h) echo "$hp"
        exit
        ;;
-    n) #!/bin/bash
+    n)
     gr='\033[1;32m'
     re='\033[1;31m'
     xx='\033[0m'
@@ -122,14 +122,14 @@ echo -e "${yw}INFO${xx}: Operating System: Linux" | tee -a reports/reports.1
 if check_pip pip; then
 echo -e "${yw}INFO${xx}: pip is installed on the system." | tee -a reports/reports.1
 else
-pip install awscli --upgrade --user &> /dev/null
+apt install -y python-pip
 fi
 if check_aws aws ; then
 echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system." | tee -a reports/reports.1
 echo -e "____________________________________________"
 echo -en '\n'
 else
-pip3 install --user --upgrade awscli &> /dev/null
+apt install -y python-pip
 fi
 echo ""
 fi
@@ -874,14 +874,14 @@ echo -e "${yw}INFO${xx}: Operating System: Linux"
 if check_pip pip; then
 echo -e "${yw}INFO${xx}: pip is installed on the system."
 else
-pip install awscli --upgrade --user &> /dev/null
+apt install -y python-pip
 fi
 if check_aws aws ; then
 echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system."
 echo -e "____________________________________________"
 echo -en '\n'
 else
-pip3 install --user --upgrade awscli &> /dev/null
+apt install -y python-pip
 fi
 echo ""
 fi
