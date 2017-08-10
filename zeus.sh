@@ -7,6 +7,9 @@ xx='\033[0m'
 yw='\033[1;33m'
 bl='\033[0;34m'
 
+unalias base64
+alias base64='base64 -d'
+
 show(){
 printf "${!1}\n"
 }
@@ -50,6 +53,8 @@ hp="$(basename "$0") [-h] [-n 1] -- Zeus is a friend of DevOps/SysAdmins.
     -h  help menu
     -n  1 no ask for fixing to WARNING reports."
 
+base64=
+
 while getopts ':hn:' option; do
   case "$option" in
     h) echo "$hp"
@@ -67,10 +72,10 @@ printf "${!1}\n"
 }
 
 #echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
-echo "   ______     ______     __  __     ______"    
-echo "  /\___  \   /\  ___\   /\ \/\ \   /\  ___\ "   
-echo "  \/_/  /__  \ \  __\   \ \ \_\ \  \ \___  \ "  
-echo "    /\_____\  \ \_____\  \ \_____\  \/\_____\ " 
+echo "   ______     ______     __  __     ______"
+echo "  /\___  \   /\  ___\   /\ \/\ \   /\  ___\ "
+echo "  \/_/  /__  \ \  __\   \ \ \_\ \  \ \___  \ "
+echo "    /\_____\  \ \_____\  \ \_____\  \/\_____\ "
 echo "    \/_____/   \/_____/   \/_____/   \/_____/ "
 echo -en '\n'
 #echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
@@ -95,7 +100,7 @@ type "$1" &> /dev/null
 
 check_pip(){
 
-type "$1" &> /dev/null 
+type "$1" &> /dev/null
 
 }
 
@@ -103,6 +108,7 @@ check_os(){
 
 if [[ $OSTYPE == darwin* ]]
 then
+alias base64='base64 -D'
 echo -e "${yw}INFO${xx}: Operating System: MacOS" | tee -a reports/reports.1
 if check_pip pip ; then
 echo -e "${yw}INFO{$xx}: pip is installed on the system." | tee -a reports/reports.1
@@ -141,7 +147,7 @@ check_os
 avoid_root(){
 
 cre_rep=$(aws iam generate-credential-report)
-aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,5,11,16 > credential_reports.txt
+aws iam get-credential-report --query 'Content' --output text | base64 | cut -d, -f1,5,11,16 > credential_reports.txt
 echo -en "IAM credential report file created as 'credential_reports.txt'" | tee -a reports/reports.1
 echo ""
 
@@ -159,7 +165,7 @@ echo -en '\n'
 
 mfa_iam(){
 
-aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,4,8 > mfa_reports.txt
+aws iam get-credential-report --query 'Content' --output text | base64 | cut -d, -f1,4,8 > mfa_reports.txt
 
 echo -en "MFA credential report file created as 'mfa_reports.txt'" | tee -a reports/reports.1
 echo ""
@@ -177,7 +183,7 @@ echo -en '\n'
 
 days_90(){
 
-rep_days=$(aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,4,5,9,10,11,14,15,16 | awk -F "," '{print $2}' | sed -n '2p')
+rep_days=$(aws iam get-credential-report --query 'Content' --output text | base64 | cut -d, -f1,4,5,9,10,11,14,15,16 | awk -F "," '{print $2}' | sed -n '2p')
 
 if [ "$rep_days" == "not_supported" ]
 then
@@ -200,7 +206,7 @@ echo -en '\n'
 
 rotated_90(){
 
-aws iam get-credential-report --query 'Content' --output text | base64 -d > access_key.log
+aws iam get-credential-report --query 'Content' --output text | base64 > access_key.log
 
 echo -en "Access keys rotate log file created as access_key.log" | tee -a reports/reports.1
 echo ""
@@ -360,9 +366,9 @@ echo -en '\n'
 
 root_access_key(){
 
-aws iam generate-credential-report 
+aws iam generate-credential-report
 
-aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,9,14 | grep -B1 root > root_access_key.log
+aws iam get-credential-report --query 'Content' --output text | base64 | cut -d, -f1,9,14 | grep -B1 root > root_access_key.log
 
 echo -en "Root access key log file created as root_access_key.log" | tee -a reports/reports.1
 
@@ -434,7 +440,7 @@ echo -en "${yw}INFORMATION${xx}"
 echo ""
 echo -e "IAM user not found!" | tee -a reports/reports.1
 else
-echo -e "IAM user: $iam_users" 
+echo -e "IAM user: $iam_users"
 echo ""
 if [ "$attc_pol" == "[]" ] || [ "$pol_name" == "[]" ]
 then
@@ -819,10 +825,10 @@ shift $((OPTIND - 1))
 
 
 #echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
-echo "   ______     ______     __  __     ______"    
-echo "  /\___  \   /\  ___\   /\ \/\ \   /\  ___\ "   
-echo "  \/_/  /__  \ \  __\   \ \ \_\ \  \ \___  \ "  
-echo "    /\_____\  \ \_____\  \ \_____\  \/\_____\ " 
+echo "   ______     ______     __  __     ______"
+echo "  /\___  \   /\  ___\   /\ \/\ \   /\  ___\ "
+echo "  \/_/  /__  \ \  __\   \ \ \_\ \  \ \___  \ "
+echo "    /\_____\  \ \_____\  \ \_____\  \/\_____\ "
 echo "    \/_____/   \/_____/   \/_____/   \/_____/ "
 echo -en '\n'
 #echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
@@ -847,7 +853,7 @@ type "$1" &> /dev/null
 
 check_pip(){
 
-type "$1" &> /dev/null 
+type "$1" &> /dev/null
 
 }
 
@@ -893,7 +899,7 @@ check_os
 avoid_root(){
 
 cre_rep=$(aws iam generate-credential-report)
-aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,5,11,16 > credential_reports.txt
+aws iam get-credential-report --query 'Content' --output text | base64 | cut -d, -f1,5,11,16 > credential_reports.txt
 echo -en "IAM credential report file created as 'credential_reports.txt'"
 echo ""
 
@@ -911,7 +917,7 @@ echo -en '\n'
 
 mfa_iam(){
 
-aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,4,8 > mfa_reports.txt
+aws iam get-credential-report --query 'Content' --output text | base64 | cut -d, -f1,4,8 > mfa_reports.txt
 
 echo -en "MFA credential report file created as 'mfa_reports.txt'"
 echo ""
@@ -929,7 +935,7 @@ echo -en '\n'
 
 days_90(){
 
-rep_days=$(aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,4,5,9,10,11,14,15,16 | awk -F "," '{print $2}' | sed -n '2p')
+rep_days=$(aws iam get-credential-report --query 'Content' --output text | base64 | cut -d, -f1,4,5,9,10,11,14,15,16 | awk -F "," '{print $2}' | sed -n '2p')
 
 if [ "$rep_days" == "not_supported" ]
 then
@@ -952,7 +958,7 @@ echo -en '\n'
 
 rotated_90(){
 
-aws iam get-credential-report --query 'Content' --output text | base64 -d > access_key.log
+aws iam get-credential-report --query 'Content' --output text | base64 > access_key.log
 
 echo -en "Access keys rotate log file created as access_key.log"
 echo ""
@@ -1138,9 +1144,9 @@ echo -en '\n'
 
 root_access_key(){
 
-aws iam generate-credential-report 
+aws iam generate-credential-report
 
-aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,9,14 | grep -B1 root > root_access_key.log
+aws iam get-credential-report --query 'Content' --output text | base64 | cut -d, -f1,9,14 | grep -B1 root > root_access_key.log
 
 echo -en "Root access key log file created as root_access_key.log"
 
@@ -1619,3 +1625,5 @@ echo -en '\n'
 #echo ""
 #printf "-----------------------------------------"
 #'
+
+unalias base64
