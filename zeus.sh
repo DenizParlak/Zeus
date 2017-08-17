@@ -36,7 +36,7 @@ log8="Ensure rotation for customer created CMKs is enabled:"
 
 
 mon1="Ensure a log metric filter and alarm exist for unauthorized API calls."
-
+mon2="Ensure a log metric filter and alarm exist for Management Console sign-in without MFA."
 
 net1="Ensure no security groups allow ingress from 0.0.0.0/0 to port 22"
 net2="Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389"
@@ -1612,10 +1612,10 @@ metfiln=$(aws logs describe-metric-filters --log-group-name CloudTrail/DefaultLo
 if [ "$metfiln" == "UnauthorizedOperation" ]
 then
 echo -e "${gr}OK${xx}"
-echo -e "Unauthorized metric filter is enabled!"
+echo -e "Unauthorized authentication metric filter is enabled!"
 else
 echo -e "${re}WARNING${xx}"
-echo -e "Unauthorized metric filter is disabled!"
+echo -e "Unauthorized authentication metric filter is disabled!"
 fi
 
 }
@@ -1624,6 +1624,30 @@ show mon1
 echo "Result:"
 echo ""
 unauthapi
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+mfametric(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep MFAUsed
+then
+echo -e "${gr}OK${xx}"
+echo -e "Management Console sign-in metric filter is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Management Console sign-in metric filter is disabled!"
+fi
+
+}
+
+show mon2
+echo "Result:"
+echo ""
+mfametric
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
