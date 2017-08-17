@@ -37,6 +37,7 @@ Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best ha
 
 ## Monitoring
  - Ensure a log metric filter and alarm exist for unauthorized API calls
+ - Ensure a log metric filter and alarm exist for Management Consolesign-in without MFA
 
 ### ChangeLog
 
