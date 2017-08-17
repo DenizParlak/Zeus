@@ -79,7 +79,7 @@ echo -e "____________________________________________"
 echo -en '\n'
 echo -e "${bl}AWS Auditing & Hardening Tool v1.0 ~${xx}"
 echo -en '\n'
-echo -e "${re}denizparlak@papilon.com.tr${xx}"
+echo -e "${re}denizparlak@protonmail.ch${xx}"
 echo -e "${re}twitter.com/_denizparlak${xx}"
 echo -en '\n'
 echo -e "Zeus starting at.." `date`
@@ -1603,6 +1603,30 @@ echo -e "____________________________________________"
 echo -en '\n'
 
 
+unauthapi(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+metfiln=$(aws logs describe-metric-filters --log-group-name CloudTrail/DefaultLogGroup | grep -w UnauthorizedOperation | awk -F ":*" '{print $2}' | awk -F "=" '{print $2}' | awk -F "\\" '{print $2}' | uniq | head -n 1 | sed -e 's/^"//' | sed -e 's/^*//')
+
+if [ "$metfiln" == "UnauthorizedOperation" ]
+then
+echo -e "${gr}OK${xx}"
+echo -e "Unauthorized metric filter is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Unauthorized metric filter is disabled!"
+fi
+
+}
+
+show mon1
+echo "Result:"
+echo ""
+unauthapi
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 #monitoring initialized
 
 #metric_filter(){
