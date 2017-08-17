@@ -858,6 +858,27 @@ echo -e "____________________________________________"
 echo -en '\n'
 
 
+rootmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep userIdentity.invokedBy
+then
+echo -e "${gr}OK${xx}"
+echo -e ""
+else
+echo -e "${re}WARNING${xx}"
+echo -e ""
+
+}
+
+show mon3
+echo "Result:"
+echo ""
+rootmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 
 
 
@@ -1705,6 +1726,30 @@ mfametric
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
+
+
+rootmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep userIdentity.invokedBy
+then
+echo -e "${gr}OK${xx}"
+echo -e ""
+else
+echo -e "${re}WARNING${xx}"
+echo -e ""
+
+}
+
+show mon3
+echo "Result:"
+echo ""
+rootmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
 #monitoring initialized
 
 #metric_filter(){
