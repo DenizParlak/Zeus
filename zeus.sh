@@ -38,7 +38,7 @@ log8="Ensure rotation for customer created CMKs is enabled:"
 mon1="Ensure a log metric filter and alarm exist for unauthorized API calls."
 mon2="Ensure a log metric filter and alarm exist for Management Console sign-in without MFA."
 mon3="Ensure a log metric filter and alarm exist for usage of "root" account."
-
+mon4="Ensure a log metric filter and alarm exist for IAM policy changes."
 
 net1="Ensure no security groups allow ingress from 0.0.0.0/0 to port 22"
 net2="Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389"
@@ -877,6 +877,29 @@ show mon3
 echo "Result:"
 echo ""
 rootmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+iammetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep DeleteGroupPolicy
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for IAM policy changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for IAM policy changes is disabled!"
+fi
+}
+
+
+show mon4
+echo "Result:"
+echo ""
+iammetrfilt
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
@@ -1747,6 +1770,29 @@ show mon3
 echo "Result:"
 echo ""
 rootmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+iammetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep DeleteGroupPolicy
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for IAM policy changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for IAM policy changes is disabled!"
+fi
+}
+
+
+show mon4
+echo "Result:"
+echo ""
+iammetrfilt
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
