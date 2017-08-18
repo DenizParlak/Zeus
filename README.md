@@ -40,6 +40,7 @@ Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best ha
  - Ensure a log metric filter and alarm exist for Management Consolesign-in without MFA
  - Ensure a log metric filter and alarm exist for usage of "root" account
  - Ensure a log metric filter and alarm exist for IAM policy changes
+ - Ensure a log metric filter and alarm exist for CloudTrail configuration changes
 
 ### ChangeLog
 
