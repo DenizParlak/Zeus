@@ -71,6 +71,6 @@ git clone https://github.com/DenizParlak/Zeus.git && cd Zeus && chmod +x zeus.sh
 
 # Screenshots
 
-![alt text](https://i.hizliresim.com/DdBYbm.jpg)
+![alt text](https://i.hizliresim.com/nW4qqM.png)
 
 ![alt text](https://i.hizliresim.com/r2EPn1.jpg)
