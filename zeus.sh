@@ -39,6 +39,8 @@ mon1="Ensure a log metric filter and alarm exist for unauthorized API calls."
 mon2="Ensure a log metric filter and alarm exist for Management Console sign-in without MFA."
 mon3="Ensure a log metric filter and alarm exist for usage of "root" account."
 mon4="Ensure a log metric filter and alarm exist for IAM policy changes."
+mon5="Ensure a log metric filter and alarm exist for CloudTrail configuration changes."
+
 
 net1="Ensure no security groups allow ingress from 0.0.0.0/0 to port 22"
 net2="Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389"
@@ -900,6 +902,28 @@ show mon4
 echo "Result:"
 echo ""
 iammetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+ctrametrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep 'CreateTrail.*UpdateTrail.*DeleteTrail.*StartLogging.*StopLogging'
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for CloudTrail configuration changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for CloudTrail configuration changes is disabled!"
+fi
+}~                                                                                                           
+~     
+show mon5
+echo "Result:"
+echo ""
+ctrametrfilt
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
@@ -1796,6 +1820,32 @@ iammetrfilt
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
+
+ctrametrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep 'CreateTrail.*UpdateTrail.*DeleteTrail.*StartLogging.*StopLogging'
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for CloudTrail configuration changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for CloudTrail configuration changes is disabled!"
+fi
+}~                                                                                                           
+~     
+show mon5
+echo "Result:"
+echo ""
+ctrametrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+~                                                                                                           
+~                                                                                                           
+~                   
+
 
 #monitoring initialized
 
