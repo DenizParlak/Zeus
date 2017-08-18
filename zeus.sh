@@ -40,7 +40,15 @@ mon2="Ensure a log metric filter and alarm exist for Management Console sign-in 
 mon3="Ensure a log metric filter and alarm exist for usage of "root" account."
 mon4="Ensure a log metric filter and alarm exist for IAM policy changes."
 mon5="Ensure a log metric filter and alarm exist for CloudTrail configuration changes."
-
+mon6="Ensure a log metric filter and alarm exist for AWS Management Console authentication failures."
+mon7="Ensure a log metric filter and alarm exist for disabling or scheduled deletion of customer created CMKs."
+mon8="Ensure a log metric filter and alarm exist for S3 bucket policy changes."
+mon9="Ensure a log metric filter and alarm exist for AWS Config configuration changes."
+mon10="Ensure a log metric filter and alarm exist for security group changes."
+mon11="Ensure a log metric filter and alarm exist for changes to NetworkAccess Control Lists (NACL)."
+mon12="Ensure a log metric filter and alarm exist for changes to network gateways."
+mon13="Ensure a log metric filter and alarm exist for route table changes."
+mon14="Ensure a log metric filter and alarm exist for VPC changes."
 
 net1="Ensure no security groups allow ingress from 0.0.0.0/0 to port 22"
 net2="Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389"
@@ -928,6 +936,222 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+
+conslogmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep grep "Failed authentication"
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for AWS Management Console authentication failures enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for AWS Management Console authentication failures disabled!"
+fi
+}
+
+
+show mon6
+echo "Result:"
+echo ""
+conslogmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+cmkmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "eventSource = kms.amazonaws.com"
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter is enabled"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter is enabled"
+fi
+}
+
+
+show mon7
+echo "Result:"
+echo ""
+cmkmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+s3metrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep 's3.amazonaws.com.*PutBucketAcl.*PutBucketPolicy.*PutBucketCors.*PutBucketLifecycle.*PutBucketReplication.*DeleteBucketPolicy.*DeleteBucketCors.*DeleteBucketLifecycle.*DeleteBucketReplication'
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for S3 bucket policy changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for S3 bucket policy changes is disabled!"
+fi
+}
+
+
+show mon8
+echo "Result:"
+echo ""
+s3metrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+awsconfmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "eventName=DeleteDeliveryChannel"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for AWS configuration changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for AWS configuration changes is disabled!"
+fi
+}
+
+
+show mon9
+echo "Result:"
+echo ""
+awsconfmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+secchametrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "AuthorizeSecurityGroupIngress"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for security group changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for security group changes is disabled!"
+fi
+}
+
+show mon10
+echo "Result:"
+echo ""
+secchametrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+naclmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "CreateNetworkAcl"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for NACLs changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for NACLs changes is disabled!"
+fi
+}
+
+show mon11
+echo "Result:"
+echo ""
+naclmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+netgatmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "CreateCustomerGateway"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for network gateways changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for network gateways changes is disabled!"
+fi
+}
+
+show mon12
+echo "Result:"
+echo ""
+netgatmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+routabchametrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "ReplaceRouteTableAssociation"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for route table changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for route table changes is disabled!"
+fi
+}
+
+show mon13
+echo "Result:"
+echo ""
+routabchametrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+vpcchametrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "RejectVpcPeeringConnection"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for VPC changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for VPC changes is disabled!"
+fi
+}
+
+show mon14
+echo "Result:"
+echo ""
+vpcchametrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 
 
 exit 1
@@ -1833,8 +2057,9 @@ else
 echo -e "${re}WARNING${xx}"
 echo -e "Metric filter for CloudTrail configuration changes is disabled!"
 fi
-}~                                                                                                           
-~     
+}
+
+
 show mon5
 echo "Result:"
 echo ""
@@ -1842,9 +2067,223 @@ ctrametrfilt
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
-~                                                                                                           
-~                                                                                                           
-~                   
+
+
+conslogmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep grep "Failed authentication"
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for AWS Management Console authentication failures enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for AWS Management Console authentication failures disabled!"
+fi
+}
+
+
+show mon6
+echo "Result:"
+echo ""
+conslogmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+cmkmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "eventSource = kms.amazonaws.com"
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter is enabled"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter is enabled"
+fi
+}
+
+
+show mon7
+echo "Result:"
+echo ""
+cmkmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+s3metrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep 's3.amazonaws.com.*PutBucketAcl.*PutBucketPolicy.*PutBucketCors.*PutBucketLifecycle.*PutBucketReplication.*DeleteBucketPolicy.*DeleteBucketCors.*DeleteBucketLifecycle.*DeleteBucketReplication'
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for S3 bucket policy changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for S3 bucket policy changes is disabled!"
+fi
+}
+
+
+show mon8
+echo "Result:"
+echo ""
+s3metrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+awsconfmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "eventName=DeleteDeliveryChannel"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for AWS configuration changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for AWS configuration changes is disabled!"
+fi
+}
+
+
+show mon9
+echo "Result:"
+echo ""
+awsconfmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+secchametrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "AuthorizeSecurityGroupIngress"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for security group changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for security group changes is disabled!"
+fi
+}
+
+show mon10
+echo "Result:"
+echo ""
+secchametrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+naclmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "CreateNetworkAcl"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for NACLs changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for NACLs changes is disabled!"
+fi
+}
+
+show mon11
+echo "Result:"
+echo ""
+naclmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+netgatmetrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "CreateCustomerGateway"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for network gateways changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for network gateways changes is disabled!"
+fi
+}
+
+show mon12
+echo "Result:"
+echo ""
+netgatmetrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+routabchametrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "ReplaceRouteTableAssociation"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for route table changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for route table changes is disabled!"
+fi
+}
+
+show mon13
+echo "Result:"
+echo ""
+routabchametrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+vpcchametrfilt(){
+
+ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
+
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "RejectVpcPeeringConnection"
+
+then
+echo -e "${gr}OK${xx}"
+echo -e "Metric filter for VPC changes is enabled!"
+else
+echo -e "${re}WARNING${xx}"
+echo -e "Metric filter for VPC changes is disabled!"
+fi
+}
+
+show mon14
+echo "Result:"
+echo ""
+vpcchametrfilt
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 
 
 #monitoring initialized
