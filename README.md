@@ -1,4 +1,4 @@
-![alt text](https://github.com/DenizParlak/Zeus/blob/master/zeus.png)
+![Zeus logo](https://github.com/DenizParlak/Zeus/blob/master/zeuslogo.png)
 
 # Zeus
 AWS Auditing &amp; Hardening Tool
