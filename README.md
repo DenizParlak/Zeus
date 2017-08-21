@@ -1,4 +1,8 @@
-![Zeus logo](https://github.com/DenizParlak/Zeus/blob/master/zeuslogo.png)
+<p align="center">
+<img src="zeuslogo.png" width="40%"></img>
+</p>
+<p align="center">
+<a href="https://en.wikipedia.org/wiki/Shell_script"><img src="https://img.shields.io/badge/Shell%20Scripting-*nix-brightgreen.svg"></a>
 
 # Zeus
 AWS Auditing &amp; Hardening Tool
