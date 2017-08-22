@@ -880,6 +880,7 @@ echo -e "A metric filter for usage of root account is enabled!"
 else
 echo -e "${re}WARNING${xx}"
 echo -e "A metric filter for usage of root account is disabled!"
+fi
 
 }
 
