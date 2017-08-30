@@ -44,6 +44,7 @@ Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best ha
 - Ensure no security groups allow ingress from 0.0.0.0/0 to port 22
 - Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389
 - Ensure VPC flow logging is enabled in all VPC
+- Ensure the default security group of every VPC restricts all traffic
 
 ## Monitoring
  - Ensure a log metric filter and alarm exist for unauthorized API calls
