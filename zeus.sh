@@ -472,7 +472,6 @@ detail_billing(){
 
 echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
 
-
 }
 
 show acc17
@@ -483,7 +482,48 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+contact_dets(){
 
+echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
+
+}
+
+
+show acc19
+echo "Result:"
+echo ""
+contact_dets
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+contact_infs(){
+
+echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
+
+}
+
+show acc20
+echo "Result:"
+echo ""
+contact_infs
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+res_acc(){
+
+echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
+
+}
+
+show acc21
+echo "Result:"
+echo ""
+res_acc
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 
 
 trail_control(){
@@ -1614,6 +1654,48 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+contact_dets(){
+
+echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
+
+}
+
+
+show acc19
+echo "Result:"
+echo ""
+contact_dets
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+contact_infs(){
+
+echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
+
+}
+
+show acc20
+echo "Result:"
+echo ""
+contact_infs
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+res_acc(){
+
+echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
+
+}
+
+show acc21
+echo "Result:"
+echo ""
+res_acc
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 
 
 trail_control(){
