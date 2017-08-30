@@ -876,6 +876,39 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+defsecvpcfunc(){
+
+defsecvpc=$(aws ec2 describe-security-groups --filters Name=group-name,Values='default' --query 'SecurityGroups[*].{IpPermissions:IpPermissions,IpPermissionsEgress:IpPermissionsEgress,GroupId:GroupId}')
+
+
+if [ "$defsecvpc" == "[]"  ]
+then
+echo -en "${gr}OK${xx}"
+echo ""
+echo -e "No any Default Security Groups open to 0.0.0.0"
+else
+echo -en "${re}WARNING${xx}"
+echo ""
+echo -e "Default Security Groups found that allow 0.0.0.0 bidirectional traffic!"
+fi
+}
+
+show net4
+echo "Result:"
+echo ""
+defsecvpcfunc
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+}
+
+
+
+
+
+
+
 unauthapi(){
 
 ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
@@ -2063,6 +2096,33 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+
+defsecvpcfunc(){
+
+defsecvpc=$(aws ec2 describe-security-groups --filters Name=group-name,Values='default' --query 'SecurityGroups[*].{IpPermissions:IpPermissions,IpPermissionsEgress:IpPermissionsEgress,GroupId:GroupId}')
+
+
+if [ "$defsecvpc" == "[]"  ]
+then
+echo -en "${gr}OK${xx}"
+echo ""
+echo -e "No any Default Security Groups open to 0.0.0.0"
+else
+echo -en "${re}WARNING${xx}"
+echo ""
+echo -e "Default Security Groups found that allow 0.0.0.0 bidirectional traffic!"
+fi
+}
+
+show net4
+echo "Result:"
+echo ""
+defsecvpcfunc
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+}
 
 unauthapi(){
 
