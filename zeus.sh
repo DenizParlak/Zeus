@@ -468,6 +468,23 @@ echo -e "____________________________________________"
 echo -en '\n'
 
 
+detail_billing(){
+
+echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
+
+
+}
+
+show acc17
+echo "Result:"
+echo ""
+detail_billing
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+
+
 
 trail_control(){
 
@@ -1582,6 +1599,20 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
+detail_billing(){
+
+echo -en "There is currently no AWS CLI support for this operation, so it is necessary to use the Management Console." | tee -a reports/reports.1
+
+
+}
+
+show acc17
+echo "Result:"
+echo ""
+detail_billing
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
 
 
 
