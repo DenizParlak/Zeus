@@ -23,7 +23,7 @@ Zeus is a powerful tool for AWS EC2 / S3 / CloudTrail / CloudWatch / KMS best ha
 - Ensure IAM password policy requires minimum length of 14 or greater
 - Ensure no root account access key exists
 - Ensure MFA is enabled for the "root" account
-- Ensure security questions are registered in the AWS account 
+- Ensure security questions are registered in the AWS account
 - Ensure IAM policies are attached only to groups or role
 - Enable detailed billing
 - Maintain current contact details
@@ -78,7 +78,7 @@ pip & aws-cli checking functions are added that based on operating system.
 
 # Usage
 
-git clone https://github.com/DenizParlak/Zeus.git && cd Zeus && chmod +x zeus.sh && ./zeus.sh
+git clone https://github.com/DenizParlak/Zeus.git && cd Zeus && ./zeus.sh
 
 # Screenshots
 
