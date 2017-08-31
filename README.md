@@ -2,7 +2,7 @@
 <img src="zeuslogo.png" width="30%"></img>
 </p>
 <p align="center">
-<a href="https://en.wikipedia.org/wiki/Shell_script"><img src="https://img.shields.io/badge/Shell%20Script-*nix-brightgreen.svg"></a><a href="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
+<a href="https://en.wikipedia.org/wiki/Shell_script"><img src="https://img.shields.io/badge/Shell%20Script-*nix-brightgreen.svg"></a><img src="https://img.shields.io/github/license/mashape/apistatus.svg">
 
 # Zeus
 AWS Auditing &amp; Hardening Tool
