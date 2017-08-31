@@ -1009,8 +1009,8 @@ else
 echo -e "${re}WARNING${xx}"
 echo -e "Metric filter for CloudTrail configuration changes is disabled!"
 fi
-}~                                                                                                           
-~     
+}
+
 show mon5
 echo "Result:"
 echo ""
