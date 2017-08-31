@@ -2114,8 +2114,6 @@ echo ""
 echo -e "____________________________________________"
 echo -en '\n'
 
-}
-
 unauthapi(){
 
 ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
