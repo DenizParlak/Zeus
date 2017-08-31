@@ -2175,7 +2175,7 @@ echo -e "A metric filter for usage of root account is enabled!"
 else
 echo -e "${re}WARNING${xx}"
 echo -e "A metric filter for usage of root account is disabled!"
-
+fi
 }
 
 show mon3
@@ -2237,7 +2237,7 @@ conslogmetrfilt(){
 
 ctrail_gr_name=$(aws cloudtrail describe-trails | egrep "*GroupArn" | awk -F ":" '{print $8}')
 
-if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep grep "Failed authentication"
+if aws logs describe-metric-filters --log-group-name $ctrail_gr_name | grep "Failed authentication"
 then
 echo -e "${gr}OK${xx}"
 echo -e "Metric filter for AWS Management Console authentication failures enabled!"
