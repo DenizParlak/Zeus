@@ -4,7 +4,7 @@
 <p align="center">
 <a href="https://en.wikipedia.org/wiki/Shell_script"><img src="https://img.shields.io/badge/Shell%20Script-*nix-brightgreen.svg"></a><img src="https://img.shields.io/github/license/mashape/apistatus.svg"><img src="https://img.shields.io/badge/LSE%20tools-Zeus-red.svg">
 <a href="https://www.toolswatch.org/2018/01/black-hat-arsenal-asia-2018-great-lineup/"
-<img src="https://img.shields.io/badge/Black%20Hat%20Arsenal-Asia%202018-blue.svg" /></a>
+<a href="https://www.blackhat.com"><img src="https://img.shields.io/badge/Black%20Hat%20Arsenal-Asia%202018-blue.svg"></a></a>
 
 # Zeus
 AWS Auditing &amp; Hardening Tool
