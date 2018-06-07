@@ -80,9 +80,3 @@ pip & aws-cli checking functions are added that based on operating system.
 # Usage
 
 git clone https://github.com/DenizParlak/Zeus.git && cd Zeus && chmod +x zeus.sh && ./zeus.sh
-
-# Screenshots
-
-![alt text](https://i.hizliresim.com/nW4qqM.png)
-
-![alt text](https://i.hizliresim.com/r2EPn1.jpg)
