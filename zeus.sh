@@ -116,7 +116,7 @@ if [[ $OSTYPE == darwin* ]]
 then
 echo -e "${yw}INFO${xx}: Operating System: MacOS" | tee -a reports/reports.1
 if check_pip pip ; then
-echo -e "${yw}INFO{$xx}: pip is installed on the system." | tee -a reports/reports.1
+echo -e "${yw}INFO{$xx}:." | tee -a reports/reports.1
 else
 curl -O https://bootstrap.pypa.io/get-pip.py &> /dev/null
 python3 get-pip.py --user &> /dev/null
@@ -1303,8 +1303,11 @@ then
 echo -e "${yw}INFO${xx}: Operating System: Linux"
 if check_pip pip; then
 echo -e "${yw}INFO${xx}: pip is installed on the system."
-else
+elif [[ ! -e /bin/yum ]]
+then
 apt install -y python-pip
+else
+yum install -y python-pip
 fi
 if check_aws aws ; then
 echo -e "${yw}INFO${xx}: AWS-CLI is installed on the system."
