@@ -24,6 +24,7 @@ acc12="Ensure no root account access key exist."
 acc13="Ensure MFA is enabled for the root account."
 acc15="Ensure security questions are registered in the AWS account."
 acc16="Ensure IAM policies are attached only to groups or roles"
+acc20="Ensure a support role has been created to manage incidents with AWS Support."
 
 log1="Ensure CloudTrail is enabled in all regions:"
 log2="Ensure CloudTrail log file validation is enabled:"
@@ -434,7 +435,7 @@ iam_policies(){
 
 iam_users_check=$(aws iam list-users | grep Users | awk -F ":" '{print $2}' | sed -e 's/^.//')
 
-iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//')
+iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed 's/"//g' | sed -e 's/,//' | xargs)
 
 attc_pol=$(aws iam list-attached-user-policies --user-name $iam_users)
 pol_name=$(aws iam list-user-policies --user-name $iam_users)
@@ -463,6 +464,28 @@ show acc16
 echo "Result:"
 echo ""
 iam_policies
+echo ""
+echo -e "____________________________________________"
+echo -en '\n'
+
+aws_support(){
+
+chckarn=$(aws iam list-policies --query "Policies[?PolicyName == 'AWSSupportAccess']" | grep Arn | awk -F " " '{print $2}' | sed 's/"//g' | sed 's/,//g')
+chcksup=$(aws iam list-entities-for-policy --policy-arn $chckarn | grep Group | awk -F ":" {'print $2'} | sed 's/,//g' | xargs)
+
+if [[ $chcksup == "[]" ]]
+then
+echo -en "${re}WARNING${xx}"
+else
+echo -en "${gr}OK${xx}"
+echo ""
+fi
+}
+
+show acc20
+echo "Result:"
+echo ""
+aws_support
 echo ""
 echo -e "____________________________________________"
 echo -en '\n'
@@ -1633,7 +1656,7 @@ iam_policies(){
 
 iam_users_check=$(aws iam list-users | grep Users | awk -F ":" '{print $2}' | sed -e 's/^.//')
 
-iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed -e 's/^.//' | sed -e 's/^.//' | sed -e 's/.$//' | sed -e 's/.$//')
+iam_users=$(aws iam list-users | grep UserName | awk -F ":" '{print $2}' | sed 's/"//g' | sed -e 's/,//' | xargs)
 
 attc_pol=$(aws iam list-attached-user-policies --user-name $iam_users)
 pol_name=$(aws iam list-user-policies --user-name $iam_users)
